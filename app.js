@@ -17,6 +17,10 @@ const authRoutes = require('./routes/auth');
 const mongoose = require('mongoose');
 const headers = require('./middleware/headers');
 
+const options = {
+    root: path.join(__dirname, 'views')
+    
+};
 
 const store = new MongoDBStore({
     uri: MONGO_URI,
@@ -51,6 +55,12 @@ app.use('/auth', authRoutes);
 app.use('/categories', categoryRoutes);
 app.use('/item', itemRoutes);
 app.use('/image', imageRoutes);
+
+
+app.use('*', (req, res) => {
+    res.sendFile('/index.html', options);
+});
+
 
 mongoose.connect(MONGO_URI).then(() => {
     console.log('connected');
