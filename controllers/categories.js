@@ -92,15 +92,18 @@ exports.delete_category = (req, res, next) => {
             objIds.push(objId);
         }
 
-        for (let subCategory of category.subCategories) {
-            for (let item of subCategory.items) {
-
-                let id = item.imageUrl.split('?id=');
-                let objId = new mongoose.Types.ObjectId(id[1]);
-
-                objIds.push(objId);
+        if(category.subCategories) {
+            for (let subCategory of category.subCategories) {
+                for (let item of subCategory.items) {
+    
+                    let id = item.imageUrl.split('?id=');
+                    let objId = new mongoose.Types.ObjectId(id[1]);
+    
+                    objIds.push(objId);
+                }
             }
         }
+        
         console.log(objIds);
 
         db.collection('images').deleteMany({ _id: { $in: objIds } }).then(() => {
