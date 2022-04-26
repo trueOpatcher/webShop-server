@@ -7,6 +7,7 @@ exports.download_image = (req, res) => {
     const id = new mongoose.Types.ObjectId(req.query.id);
 
     db.collection('images').findOne({_id: id}).then(imgDoc => {
+        if(imgDoc === null) return res.status(400).send();
         const mimetype = imgDoc.mimetype;
 
         const buffer = imgDoc.data.toString('base64');
