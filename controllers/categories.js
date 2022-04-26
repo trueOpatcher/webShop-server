@@ -5,22 +5,16 @@ const mongoose = require('mongoose');
 exports.get_categories = (req, res, next) => {
     const db = mongoose.connection.db;
     const categories = [];
-    const items = [];
+    
     db.collection('categories').find({}, { projection: { _id: 0 } }).forEach(category => {
 
         categories.push(category);
         
-        for(let subCategory of category.subCategories) {
-            for( let item of subCategory.items) {
-                items.push(item);
-            }
-        }
-        
-        categories.push(items);
+
 
     }).then(() => {
 
-        
+        if (categories === null) return res.status(200).send(categories);
 
         return res.status(200).send(categories);
 
