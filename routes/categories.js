@@ -6,6 +6,7 @@ const categories_Controller = require('../controllers/categories');
 
 
 router.get('/fetch', categories_Controller.get_categories);
+router.get('/fetch/all', categories_Controller.get_all);
 
 router.post('/add/category', categories_Controller.post_categories);
 router.post('/add/sub', categories_Controller.post_sub_categories);

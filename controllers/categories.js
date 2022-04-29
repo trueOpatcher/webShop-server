@@ -22,6 +22,33 @@ exports.get_categories = (req, res, next) => {
 
 }
 
+exports.get_all = (req, res) => {
+    const db = mongoose.connection.db;
+
+    const items = [];
+    
+    db.collection('categories').find({}).forEach(category => {
+
+        for(let item of category.items) {
+            items.push(item);
+        }
+
+        for(let subCategory of category.subCategories) {
+            for(let item of subCategory.items) {
+                items.push(item);
+            }
+        }
+
+    }).then(() => {
+
+        return res.status(200).send({ items: items, catName: 'All'});
+
+    }).catch(error => {
+        return res.status(400).send(error);
+    })
+
+}
+
 
 
 exports.post_categories = (req, res, next) => {

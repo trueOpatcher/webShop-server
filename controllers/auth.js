@@ -23,14 +23,14 @@ exports.post_login = (req, res) => {
 
 
     app.logIn(credentials).then(userData => {
+        console.log('in');
         const userEmail = userData._profile.data.email;
         req.session.email = userEmail;
         console.log(req.session.email);
         return res.status(200).send(userData);
-    }).catch(error => {
-        // return res.status(400).send({ message: error});
-      
 
+    }).catch(error => {
+        return res.status(400).send({ message: error});
     })
 }
 
